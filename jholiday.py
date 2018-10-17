@@ -197,7 +197,13 @@ def holiday_name(year = None, month = None, day = None, date = None):
                 name = '海の日'
         elif date.year >= 1996 and date.day == 20:
             name = '海の日'
-    # 8月 (祝日なし)
+    # 8月
+    elif date.month == 8:
+        if date.year >= 2014:
+            if int((date.day - 1) / 7) == 1 and date.weekday() == MONDAY:
+                name = '山の日'
+        elif date.year >= 2014 and date.day == 11:
+            name = '山の日'
     # 9月
     elif date.month == 9:
         autumn_equinox = _autumn_equinox(date.year)
