@@ -82,6 +82,7 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 import datetime
 import sys
+import math
 
 MONDAY, TUESDAY, WEDNESDAY = 0, 1, 2
 
@@ -155,8 +156,8 @@ def holiday_name(year = None, month = None, day = None, date = None):
     elif date.month == 2:
         if date.day == 11 and date.year >= 1967:
             name = '建国記念の日'
-        elif (date.year, date.month, date.day) == (1989, 2, 24):
-            name = '昭和天皇の大喪の礼'
+        elif date.day == 23 and date.year >= 2020:
+            name = '天皇誕生日()'
     # 3月
     elif date.month == 3:
         if date.day == _vernal_equinox(date.year):
@@ -168,10 +169,6 @@ def holiday_name(year = None, month = None, day = None, date = None):
                 name = '昭和の日'
             elif date.year >= 1989:
                 name = 'みどりの日'
-            else:
-                name = '天皇誕生日'
-        elif (date.year, date.month, date.day) == (1959, 4, 10):
-            name = '皇太子明仁親王の結婚の儀'
     # 5月
     elif date.month == 5:
         if date.day == 3:
@@ -187,9 +184,6 @@ def holiday_name(year = None, month = None, day = None, date = None):
             if date.year >= 2007 and date.weekday() in (TUESDAY, WEDNESDAY):
                 name = '振替休日'
     # 6月
-    elif date.month == 6:
-        if (date.year, date.month, date.day) == (1993, 6, 9):
-            name = '皇太子徳仁親王の結婚の儀'
     # 7月
     elif date.month == 7:
         if date.year >= 2003:
@@ -199,10 +193,7 @@ def holiday_name(year = None, month = None, day = None, date = None):
             name = '海の日'
     # 8月
     elif date.month == 8:
-        if date.year >= 2014:
-            if int((date.day - 1) / 7) == 1 and date.weekday() == MONDAY:
-                name = '山の日'
-        elif date.year >= 2014 and date.day == 11:
+        if date.year >= 2016 and date.day == 11:
             name = '山の日'
     # 9月
     elif date.month == 9:
@@ -230,13 +221,26 @@ def holiday_name(year = None, month = None, day = None, date = None):
             name = '文化の日'
         elif date.day == 23:
             name = '勤労感謝の日'
-        elif (date.year, date.month, date.day) == (1990, 11, 12):
-            name = '即位礼正殿の儀'
     # 12月
     elif date.month == 12:
-        if date.day == 23 and date.year >= 1989:
-            name = '天皇誕生日'
-
+        if date.day == 23 and date.year >= 1989 and date.year < 2019:
+            name = '天皇誕生日(平成)'
+    # その他
+    if not name:
+        if (date.year, date.month, date.day) == (1959, 4, 10):
+            name = '皇太子明仁親王の結婚の儀'
+        elif (date.year, date.month, date.day) == (1990, 11, 12):
+            name = '即位礼正殿の儀(平成)'
+        elif (date.year, date.month, date.day) == (1993, 6, 9):
+            name = '皇太子徳仁親王の結婚の儀'
+        elif (date.year, date.month, date.day) == (2019, 5, 1):
+            name = '天皇の即位の日()'
+        elif (date.year, date.month, date.day) == (2019, 5, 2) or (date.year, date.month, date.day) == (2019, 4, 30):
+            name = '国民の休日'
+        elif (date.year, date.month, date.day) == (2019, 10, 22):
+            name = '即位礼正殿の儀()'
+        elif (date.year, date.month, date.day) == (1989, 2, 24):
+            name = '昭和天皇の大喪の礼'
     # 振替休日
     if not name and date.weekday() == MONDAY:
         prev = date + datetime.timedelta(days = -1)
